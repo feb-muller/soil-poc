@@ -1,4 +1,4 @@
-#SHU Smart Irrigation Management System#
+# SHU Smart Irrigation Management System #
 The project proposed would be a monitoring system for plant soil moisture, stopping plants dieback due to heat stress in the UK’s greenest city.
 
 `Sensors -> REST API -> Database -> Data Processing -> Web Dashboard-> Alerts System`
