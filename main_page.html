@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <h1>Sensor Dashboard</h1>
+
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
+        </script>
+
+        <canvas id="sensor_chart"></canvas>
+
+        <script>
+            fetch("http://127.0.0.1:8000/data") //data api endpoint that gives the sensor readings for sensor 1
+            .then((response) => response.json())
+            .then((reading) => {
+
+
+                console.log(reading);
+                document.getElementById('reading').innerHTML = reading[0][0]; //this gives the first reading of the first set
+                //iterate through the sets taking the [1] reading for moisture and the [2] reading for timestamp.
+                
+                const labels = reading.map(
+                    reading => reading[0][2] //fucked mapping to timestamp
+                );
+
+                const moisture = reading.map(
+                    reading => reading[0][1] //other fucked mapping to moisture
+                )
+
+                const sensor_chart = new Chart("sensor_chart", {
+                    type: "line",
+                    data: {labels: labels, datasets:moisture}, //bollocks?
+                });
+
+
+
+            });
+        </script>
+
+        <text id="reading"></text>
+
+    </body>
+</html>
