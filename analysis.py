@@ -1,6 +1,7 @@
 import mysql.connector
 import pandas as pd
 import matplotlib.pyplot as plt
+import requests
 
 
 soil_db = mysql.connector.connect(
@@ -34,7 +35,13 @@ plt.ylabel('Moisture (%)')
 plt.title('Sensor 1 Moisture Levels')
 plt.savefig("test_fig.png", dpi=200)
 
+fig = plt.figure()
+print(len(fig))
+
 soil_db.commit()
+
+response = requests.post('http://127.0.0.1:8000/graphs/', data=fig)
+print(response)
 
 
 ''' CALCULATING AVERAGE FROM result VARIABLLE

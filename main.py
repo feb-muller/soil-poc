@@ -2,8 +2,20 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from datetime import datetime
 import mysql.connector
+import uvicorn
+
+#IDK WHY ITS SO FUCKED
+#run with `uvicorn main:app`
+
+global app 
+app = FastAPI()
+
 
 def main():
+
+
+    print("test")
+
     soil_db = mysql.connector.connect(
         host = "localhost",
         user = "feb",
@@ -19,11 +31,9 @@ def main():
         moisture : float
         time : str
 
-    app = FastAPI()
 
     @app.post("/readings/")
     async def readings(item: sensor):
-        print(item)
 
         sql = "INSERT INTO sensors (sensor_id, moisture, timestamp) VALUES (%s, %s, %s)"
         values = (item.sensor_id, item.moisture, item.time)
@@ -33,6 +43,15 @@ def main():
 
         return item.sensor_id, item.moisture, item.time
 
-    
-if __name__ == '__main__':
-    main()
+
+
+    @app.get("/data")
+    async def get_readings():
+        sql = ("SELECT * FROM sensors WHERE sensor_id= 1") #currently just gives one but make this a variable 
+
+        my_cursor.execute(sql)
+        result = my_cursor.fetchall()
+
+        return(result)
+
+main()
