@@ -6,6 +6,12 @@
             <option value="1">Sensor 1</option>
             <option value="2">Sensor 2</option>
             <option value="3">Sensor 3</option>
+            <option value="4">Sensor 4</option>
+            <option value="5">Sensor 5</option>
+            <option value="6">Sensor 6</option>
+            <option value="7">Sensor 7</option>
+            <option value="8">Sensor 8</option>
+            <option value="9">Sensor 9</option>
         </select>
         <script
             src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
@@ -18,11 +24,13 @@
 
                 const sensorId = Number(this.value);
 
+                console.log("Selected sensor:", sensorId);
+
                 const requestBody = JSON.stringify({
                     drop_val: sensorId
                 });
 
-                console.log(requestBody);
+                console.log("Request body:", requestBody);
 
                 fetch("http://127.0.0.1:8000/data", {
                     method: "POST",
