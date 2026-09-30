@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <h1>Sensor Dashboard</h1>
-
+        <h1>Moisture Sensor Dashboard</h1>
+        <select id="drop_val">
+            <option value="1">Sensor 1</option>
+            <option value="2">Sensor 2</option>
+            <option value="3">Sensor 3</option>
+        </select>
         <script
             src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
         </script>
@@ -10,14 +14,33 @@
         <canvas id="sensor_chart"></canvas>
 
         <script>
-            fetch("http://127.0.0.1:8000/data") //data api endpoint that gives the sensor readings for sensor 1
-            .then((response) => response.json())
-            .then((reading) => {
+            document.getElementById("drop_val").addEventListener("change", function () {
 
+                const sensorId = Number(this.value);
 
-                var moisture_levels = reading[0].map(Number)
-                
-                const sensor_chart = new Chart("sensor_chart", {
+                const requestBody = JSON.stringify({
+                    drop_val: sensorId
+                });
+
+                console.log(requestBody);
+
+                fetch("http://127.0.0.1:8000/data", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: requestBody
+                })
+                .then(response => {
+                    console.log("HTTP status:", response.status);
+                    return response.json();
+                })
+                .then(reading => {
+                    console.log("Data from Python:", reading);
+
+                    var moisture_levels = reading[0].map(Number)
+
+                    const sensor_chart = new Chart("sensor_chart", {
                         type: "line",
                         data: {
                             labels: reading[1],
@@ -29,10 +52,15 @@
                                 data: moisture_levels
                                 }]
                         },
-                        });
+                    });
 
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                });
 
             });
+ 
         </script>
     </body>
 </html>

@@ -31,6 +31,10 @@ def main():
         moisture : float
         time : str
 
+    class dropdown(BaseModel):
+        drop_val: int
+
+
 
     @app.post("/readings/")
     async def readings(item: sensor):
@@ -45,15 +49,20 @@ def main():
 
 
 
-    @app.get("/data")
-    async def get_readings():
-        moisture_sql = ("SELECT moisture FROM sensors WHERE sensor_id= 1") #currently just gives one but make this a variable 
-        time_sql = ("SELECT timestamp FROM sensors WHERE sensor_id=1")
+    @app.post("/data")
+    async def get_readings(item: dropdown):
 
-        my_cursor.execute(moisture_sql)
+        values = item.drop_val
+        print("Sensor Values", values)
+
+        moisture_sql = ("SELECT moisture FROM sensors WHERE sensor_id= (%s)") #currently just gives one but make this a variable 
+        time_sql = ("SELECT timestamp FROM sensors WHERE sensor_id= (%s)")
+
+
+        my_cursor.execute(moisture_sql, (values,))
         moisture_result = my_cursor.fetchall()
 
-        my_cursor.execute(time_sql)
+        my_cursor.execute(time_sql, (values,))
         time_result = my_cursor.fetchall()
 
         return(moisture_result, time_result)
