@@ -15,29 +15,24 @@
             .then((reading) => {
 
 
-                console.log(reading);
-                document.getElementById('reading').innerHTML = reading[0][0]; //this gives the first reading of the first set
-                //iterate through the sets taking the [1] reading for moisture and the [2] reading for timestamp.
+                var moisture_levels = reading[0].map(Number)
                 
-                const labels = reading.map(
-                    reading => reading[0][2] //fucked mapping to timestamp
-                );
-
-                const moisture = reading.map(
-                    reading => reading[0][1] //other fucked mapping to moisture
-                )
-
                 const sensor_chart = new Chart("sensor_chart", {
-                    type: "line",
-                    data: {labels: labels, datasets:moisture}, //bollocks?
-                });
-
+                        type: "line",
+                        data: {
+                            labels: reading[1],
+                            datasets: [{
+                                label: "Moisture Level",
+                                hoverBackgroundColor: "rgba(232,105,90,0.8)",
+                                borderColor: "rgba(0,0,255,0.1)",
+                                borderWidth: 5,
+                                data: moisture_levels
+                                }]
+                        },
+                        });
 
 
             });
         </script>
-
-        <text id="reading"></text>
-
     </body>
 </html>

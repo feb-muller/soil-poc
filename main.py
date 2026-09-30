@@ -47,11 +47,15 @@ def main():
 
     @app.get("/data")
     async def get_readings():
-        sql = ("SELECT * FROM sensors WHERE sensor_id= 1") #currently just gives one but make this a variable 
+        moisture_sql = ("SELECT moisture FROM sensors WHERE sensor_id= 1") #currently just gives one but make this a variable 
+        time_sql = ("SELECT timestamp FROM sensors WHERE sensor_id=1")
 
-        my_cursor.execute(sql)
-        result = my_cursor.fetchall()
+        my_cursor.execute(moisture_sql)
+        moisture_result = my_cursor.fetchall()
 
-        return(result)
+        my_cursor.execute(time_sql)
+        time_result = my_cursor.fetchall()
+
+        return(moisture_result, time_result)
 
 main()
