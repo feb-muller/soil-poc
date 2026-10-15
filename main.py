@@ -4,8 +4,7 @@ from datetime import datetime
 import mysql.connector
 import uvicorn
 
-#IDK WHY ITS SO FUCKED
-#run with `uvicorn main:app`
+#uv run uvicorn main:app --host 10.196.9.173 --port 8000
 
 global app 
 app = FastAPI()

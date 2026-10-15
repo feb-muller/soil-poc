@@ -19,7 +19,7 @@ def main():
         }
 
         response = requests.post(
-            "http://127.0.0.1:8000/readings/",
+            "http://172.16.15.73:8000/readings/",
             json = data
         )
         print(response.json())
