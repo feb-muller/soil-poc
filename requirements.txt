@@ -1,6 +1,4 @@
-python==3.14.4
-fastapi==0.032
+fastapi==0.141.1
 uvicorn==0.53.0
-pydantic
-mysql.connector
-datetime
+pydantic==2.13.5
+mysql.connector==26.7.0
